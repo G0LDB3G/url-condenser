@@ -4,17 +4,21 @@
 <head>
 
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <title>URL Condenser</title>
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <meta
+            name="description"
+            content="Aplicação para encurtamento de URLs desenvolvida com Spring Boot e Java.">
+
+    <title>URL Condenser | URL Shortener</title>
 
     <link rel="stylesheet" href="style.css">
 
 </head>
 
-
 <body>
-
 
 <header>
 
@@ -26,85 +30,59 @@
 
 </header>
 
-
-
 <main>
 
+    <section class="card">
 
-<section class="card">
+        <h2>Criar URL curta</h2>
 
+        <input
+                id="urlInput"
+                type="url"
+                autocomplete="off"
+                spellcheck="false"
+                placeholder="https://exemplo.com">
 
-<h2>Criar URL curta</h2>
+        <button
+                type="button"
+                onclick="createUrl()">
+            Encurtar
+        </button>
 
+        <div id="result"></div>
 
-<input 
-id="urlInput"
-type="text"
-placeholder="Digite sua URL aqui">
+    </section>
 
+    <section class="card">
 
-<button onclick="createUrl()">
-Encurtar
-</button>
+        <h2>URLs cadastradas</h2>
 
+        <table>
 
+            <thead>
 
-<div id="result"></div>
+            <tr>
 
+                <th>Original</th>
+                <th>Código</th>
+                <th>Cliques</th>
+                <th>Ações</th>
 
-</section>
+            </tr>
 
+            </thead>
 
+            <tbody id="urlTable">
 
+            </tbody>
 
-<section class="card">
+        </table>
 
-
-<h2>URLs cadastradas</h2>
-
-
-<table>
-
-
-<thead>
-
-<tr>
-
-<th>Original</th>
-
-<th>Código</th>
-
-<th>Cliques</th>
-
-<th>Ações</th>
-
-</tr>
-
-</thead>
-
-
-
-<tbody id="urlTable">
-
-
-</tbody>
-
-
-</table>
-
-
-</section>
-
-
+    </section>
 
 </main>
 
-
-
 <script src="script.js"></script>
 
-
 </body>
-
-
 </html>

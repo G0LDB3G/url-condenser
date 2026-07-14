@@ -1,16 +1,12 @@
-* {
-
+*{
     margin:0;
     padding:0;
     box-sizing:border-box;
-
 }
 
+body{
 
-body {
-
-
-    font-family: Arial, Helvetica, sans-serif;
+    font-family:Arial, Helvetica, sans-serif;
 
     background:#f4f6f8;
 
@@ -18,10 +14,7 @@ body {
 
 }
 
-
-
-header {
-
+header{
 
     background:#111827;
 
@@ -31,21 +24,15 @@ header {
 
     padding:40px;
 
-
 }
 
-
-
-header h1 {
+header h1{
 
     font-size:38px;
 
 }
 
-
-
-main {
-
+main{
 
     width:90%;
 
@@ -53,13 +40,9 @@ main {
 
     margin:40px auto;
 
-
 }
 
-
-
-.card {
-
+.card{
 
     background:white;
 
@@ -71,15 +54,11 @@ main {
 
     box-shadow:0 5px 15px rgba(0,0,0,.1);
 
-
 }
 
+input{
 
-
-input {
-
-
-    width:80%;
+    width:100%;
 
     padding:14px;
 
@@ -89,13 +68,11 @@ input {
 
     font-size:16px;
 
-
 }
 
+button{
 
-
-button {
-
+    margin-top:15px;
 
     padding:14px 25px;
 
@@ -111,20 +88,13 @@ button {
 
 }
 
-
-
-button:hover {
-
+button:hover{
 
     background:#1d4ed8;
 
-
 }
 
-
-
-table {
-
+table{
 
     width:100%;
 
@@ -132,13 +102,9 @@ table {
 
     border-collapse:collapse;
 
-
 }
 
-
-
-th,td {
-
+th,td{
 
     padding:12px;
 
@@ -146,37 +112,48 @@ th,td {
 
     text-align:left;
 
-
 }
 
-
-
-a {
-
+a{
 
     color:#2563eb;
 
-
 }
 
-
-
-.copy {
-
+.copy{
 
     background:#16a34a;
 
     margin-right:5px;
 
-
 }
 
-
-
-.delete {
-
+.delete{
 
     background:#dc2626;
 
+}
+
+@media (max-width:768px){
+
+    input{
+
+        width:100%;
+
+        margin-bottom:10px;
+
+    }
+
+    button{
+
+        width:100%;
+
+    }
+
+    table{
+
+        font-size:14px;
+
+    }
 
 }

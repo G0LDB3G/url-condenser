@@ -1,229 +1,204 @@
-const API = "http://localhost:8080";
+const API =
+    window.location.hostname === "localhost"
+        ? "http://localhost:8080"
+        : "https://url-condenser.onrender.com";
 
+async function createUrl() {
 
+    try {
 
-async function createUrl(){
+        const input = document.getElementById("urlInput");
 
+        const url = input.value.trim();
 
-    const input = document.getElementById("urlInput");
+        if (!url) {
 
+            alert("Digite uma URL.");
 
-    const url = input.value;
+            return;
 
+        }
 
+        const response = await fetch(`${API}/api/urls`, {
 
-    if(!url){
+            method: "POST",
 
-        alert("Digite uma URL");
+            headers: {
 
-        return;
-
-    }
-
-
-
-    const response = await fetch(
-        `${API}/api/urls`,
-        {
-
-            method:"POST",
-
-            headers:{
-
-                "Content-Type":"application/json"
+                "Content-Type": "application/json"
 
             },
 
-            body:JSON.stringify({
+            body: JSON.stringify({
 
-                originalUrl:url
+                originalUrl: url
 
             })
 
+        });
+
+        if (!response.ok) {
+
+            const error = await response.json();
+
+            throw new Error(error.message);
+
         }
 
-    );
+        const data = await response.json();
 
+        document.getElementById("result").innerHTML = `
 
+            <p>Sua URL curta:</p>
 
-    const data = await response.json();
+            <a href="${data.shortUrl}" target="_blank">
 
+                ${data.shortUrl}
 
+            </a>
 
-    document.getElementById("result").innerHTML = `
+            <br><br>
 
-        <p>
-        Sua URL curta:
-        </p>
+            <button
+                class="copy"
+                onclick="copyUrl('${data.shortUrl}')">
 
-        <a href="${data.shortUrl}" target="_blank">
-        ${data.shortUrl}
-        </a>
+                Copiar
 
-
-        <button class="copy"
-        onclick="copyUrl('${data.shortUrl}')">
-        Copiar
-        </button>
-
-    `;
-
-
-    input.value="";
-
-
-    loadUrls();
-
-
-}
-
-
-
-
-async function loadUrls(){
-
-
-    const response = await fetch(
-        `${API}/api/urls`
-    );
-
-
-    const urls = await response.json();
-
-
-
-    const table =
-    document.getElementById("urlTable");
-
-
-
-    table.innerHTML="";
-
-
-
-    urls.forEach(url => {
-
-
-
-        table.innerHTML += `
-
-
-        <tr>
-
-
-        <td>
-
-        <a href="${url.originalUrl}" target="_blank">
-
-        ${url.originalUrl}
-
-        </a>
-
-        </td>
-
-
-
-        <td>
-
-        <a href="${API}/${url.shortCode}" target="_blank">
-
-        ${url.shortCode}
-
-        </a>
-
-
-        </td>
-
-
-
-        <td>
-
-        ${url.clicks}
-
-        </td>
-
-
-
-        <td>
-
-
-        <button 
-        class="copy"
-        onclick="copyUrl('${API}/${url.shortCode}')">
-
-        Copiar
-
-        </button>
-
-
-        <button
-        class="delete"
-        onclick="deleteUrl(${url.id})">
-
-        Excluir
-
-        </button>
-
-
-
-        </td>
-
-
-        </tr>
-
+            </button>
 
         `;
 
+        input.value = "";
 
+        loadUrls();
 
-    });
+    }
 
+    catch (error) {
 
+        alert(error.message);
 
-}
+        console.error(error);
 
-
-
-
-async function deleteUrl(id){
-
-
-    await fetch(
-
-        `${API}/api/urls/${id}`,
-
-        {
-
-            method:"DELETE"
-
-        }
-
-    );
-
-
-    loadUrls();
-
+    }
 
 }
 
+async function loadUrls() {
 
+    try {
 
+        const response = await fetch(`${API}/api/urls`);
 
-function copyUrl(url){
+        const urls = await response.json();
 
+        const table = document.getElementById("urlTable");
+
+        table.innerHTML = "";
+
+        urls.forEach(url => {
+
+            table.innerHTML += `
+
+            <tr>
+
+                <td>
+
+                    <a href="${url.originalUrl}" target="_blank">
+
+                        ${url.originalUrl}
+
+                    </a>
+
+                </td>
+
+                <td>
+
+                    <a href="${API}/${url.shortCode}" target="_blank">
+
+                        ${url.shortCode}
+
+                    </a>
+
+                </td>
+
+                <td>
+
+                    ${url.clicks}
+
+                </td>
+
+                <td>
+
+                    <button
+                        class="copy"
+                        onclick="copyUrl('${API}/${url.shortCode}')">
+
+                        Copiar
+
+                    </button>
+
+                    <button
+                        class="delete"
+                        onclick="deleteUrl(${url.id})">
+
+                        Excluir
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            `;
+
+        });
+
+    }
+
+    catch (error) {
+
+        console.error(error);
+
+    }
+
+}
+
+async function deleteUrl(id) {
+
+    try {
+
+        await fetch(`${API}/api/urls/${id}`, {
+
+            method: "DELETE"
+
+        });
+
+        loadUrls();
+
+    }
+
+    catch (error) {
+
+        alert("Erro ao excluir a URL.");
+
+        console.error(error);
+
+    }
+
+}
+
+function copyUrl(url) {
 
     navigator.clipboard.writeText(url);
 
-
-    alert(
-        "URL copiada!"
-    );
-
+    alert("URL copiada!");
 
 }
 
+window.onload = () => {
 
+    loadUrls();
 
-
-
-loadUrls();
+};
