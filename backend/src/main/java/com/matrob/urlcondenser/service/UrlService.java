@@ -9,6 +9,7 @@ import com.matrob.urlcondenser.exception.UrlNotFoundException;
 import com.matrob.urlcondenser.mapper.UrlMapper;
 import com.matrob.urlcondenser.repository.UrlRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
@@ -19,6 +20,9 @@ import java.util.List;
 public class UrlService {
 
     private static final String BASE62 = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+
+    @Value("${app.base-url}")
+    private String baseUrl;
 
     private final SecureRandom random = new SecureRandom();
 
@@ -43,7 +47,12 @@ public class UrlService {
 
         repository.save(url);
 
-        return mapper.toResponseDTO(url);
+        return new UrlResponseDTO(
+                url.getId(),
+                url.getOriginalUrl(),
+                url.getShortCode(),
+                baseUrl + "/" + url.getShortCode()
+        );
     }
 
     /**
@@ -96,7 +105,7 @@ public class UrlService {
 
         url.setClicks(url.getClicks() + 1);
 
-        repository.save(url);
+        repository.saveAndFlush(url);
 
         return url.getOriginalUrl();
     }

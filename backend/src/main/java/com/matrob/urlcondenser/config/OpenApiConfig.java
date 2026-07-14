@@ -35,15 +35,14 @@ public class OpenApiConfig {
 
                         .contact(new Contact()
                                 .name("Mateus Azevedo")
-                                .email("mateus@email.com")
-                                .url("https://github.com/seu-github"))
+                                .url("https://github.com/G0LDB3G"))
 
                         .license(new License()
                                 .name("MIT")))
 
                 .externalDocs(new ExternalDocumentation()
                         .description("Repositório do Projeto")
-                        .url("https://github.com/seu-github/urlcondenser"));
+                        .url("https://github.com/G0LDB3G/url-condenser"));
 
     }
 
