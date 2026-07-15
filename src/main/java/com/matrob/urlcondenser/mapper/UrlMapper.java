@@ -5,13 +5,18 @@ import com.matrob.urlcondenser.dto.UrlResponseDTO;
 import com.matrob.urlcondenser.dto.UrlStatsDTO;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.springframework.beans.factory.annotation.Value;
 
 @Mapper(componentModel = "spring")
-public interface UrlMapper {
+public abstract class UrlMapper {
 
-    @Mapping(target = "shortUrl", expression = "java(\"http://localhost:8080/\" + url.getShortCode())")
-    UrlResponseDTO toResponseDTO(Url url);
+    @Value("${app.base-url:http://localhost:8080}")
+    @SuppressWarnings("unused")
+    protected String baseUrl;
 
-    UrlStatsDTO toStatsDTO(Url url);
+    @Mapping(target = "shortUrl", expression = "java(baseUrl + \"/\" + url.getShortCode())")
+    public abstract UrlResponseDTO toResponseDTO(Url url);
+
+    public abstract UrlStatsDTO toStatsDTO(Url url);
 
 }
