@@ -1,7 +1,7 @@
 const API =
     window.location.hostname === "localhost"
         ? "http://localhost:8080"
-        : "https://url-condenser.onrender.com";
+        : "https://url-condenser-api.onrender.com";
 
 async function createUrl() {
 
@@ -24,15 +24,11 @@ async function createUrl() {
             method: "POST",
 
             headers: {
-
                 "Content-Type": "application/json"
-
             },
 
             body: JSON.stringify({
-
                 originalUrl: url
-
             })
 
         });
@@ -51,10 +47,8 @@ async function createUrl() {
 
             <p>Sua URL curta:</p>
 
-            <a href="${data.shortUrl}" target="_blank">
-
+            <a href="${data.shortUrl}" target="_blank" rel="noopener noreferrer">
                 ${data.shortUrl}
-
             </a>
 
             <br><br>
@@ -105,7 +99,7 @@ async function loadUrls() {
 
                 <td>
 
-                    <a href="${url.originalUrl}" target="_blank">
+                    <a href="${url.originalUrl}" target="_blank" rel="noopener noreferrer">
 
                         ${url.originalUrl}
 
@@ -115,7 +109,7 @@ async function loadUrls() {
 
                 <td>
 
-                    <a href="${API}/${url.shortCode}" target="_blank">
+                    <a href="${API}/${url.shortCode}" target="_blank" rel="noopener noreferrer">
 
                         ${url.shortCode}
 
