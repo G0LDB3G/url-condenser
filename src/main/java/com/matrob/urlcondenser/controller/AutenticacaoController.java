@@ -1,6 +1,9 @@
 package com.matrob.urlcondenser.controller;
 
 import com.matrob.urlcondenser.domain.usuario.DadosAutenticacao;
+import com.matrob.urlcondenser.domain.usuario.Usuario;
+import com.matrob.urlcondenser.security.DadosTokenJWT;
+import com.matrob.urlcondenser.security.TokenService;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -15,16 +18,20 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/login")
 public class AutenticacaoController {
     private final AuthenticationManager manager;
+    private final TokenService tokenService;
 
-    public AutenticacaoController(AuthenticationManager manager) {
+    public AutenticacaoController(AuthenticationManager manager, TokenService tokenService) {
         this.manager = manager;
+        this.tokenService = tokenService;
     }
 
     @PostMapping()
-    public ResponseEntity<String> login(@RequestBody @Valid DadosAutenticacao dados) {
-        var token = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
-        Authentication authentication = manager.authenticate(token);
+    public ResponseEntity<DadosTokenJWT> login(@RequestBody @Valid DadosAutenticacao dados) {
+        var authenticationToken  = new UsernamePasswordAuthenticationToken(dados.login(), dados.senha());
+        Authentication authentication = manager.authenticate(authenticationToken);
 
-        return ResponseEntity.ok().build();
+        String tokenJWT = tokenService.gerarToken((Usuario) authentication.getPrincipal());
+
+        return ResponseEntity.ok(new DadosTokenJWT(tokenJWT));
     }
 }
